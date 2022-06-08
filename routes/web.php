@@ -18,7 +18,7 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 Route::get('/', function () {
     return view('posts', [
         'posts' => Post::all()
-    ]);
+    ]);//testing github setup
 });
 
 Route::get('posts/{post}', function ($slug) {
