@@ -21,10 +21,18 @@ Route::get('/', function () {
     ]);//testing github setup
 });
 
-Route::get('posts/{post}', function ($slug) {
+Route::get('posts/{post:slug}', function (Post $post) {
 
     return view('post', [ 
-        'post' => Post::find($slug) //this calls to the class of post thats responsible for finding the correct view
+        'post' => $post //this calls to the class of post thats responsible for finding the correct view
+    ]);
+
+});
+
+Route::get('category/{category}', function(Category $category){
+
+    return view('post', [ 
+        'post' => $category->posts //this calls to the class of post thats responsible for finding the correct view
     ]);
 
 });

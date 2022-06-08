@@ -1,49 +1,21 @@
-<?php 
+<?php
 
 namespace App\Models;
 
-use Illuminate\Database\ModelNotFoundException;
-use Illuminate\Support\Facades\File;
-use Spatie\YamlFrontMatter\YamlFrontMatter;
-class Post
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Post extends Model
 {
+    use HasFactory;
 
-    public $title;
-    public $excerpt;
-    public $date;
-    public $body;
-    public $slug;
 
-    public function __construct($title,$excerpt,$body, $date, $slug)
+
+    protected $gaurdable =[]; //does the opposite and strictly doesnt allow this to be changed
+
+    public function category()
     {
-        $this->title = $title;
-        $this->excerpt = $excerpt;
-        $this->body = $body;
-        $this->date = $date;
-        $this->slug = $slug;
+        return $this->belongsTo(Category::class);
     }
 
-    public static function find($slug)
-    {
-       return static::all()->firstWhere('slug', $slug);
-    }
-
-
-    public static function all()
-    {
-
-        return cache()->rememberForever('posts.all',function(){
-            return collect(File::files(resource_path("posts")))
-            ->map(fn($file) =>YamlFrontMatter::parseFile($file))
-            ->map(fn($document) => new Post(
-                $document -> title,
-                $document -> excerpt,
-                $document -> body(),
-                $document -> date,
-                $document -> slug
-            ))
-            ->sortByDesc('date');
-        });
-
-    }
 }
