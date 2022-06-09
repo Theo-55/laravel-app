@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Models\Post;
+use App\models\Category;
+use App\models\User;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
 
 /*
@@ -17,8 +19,8 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 
 Route::get('/', function () {
     return view('posts', [
-        'posts' => Post::all()
-    ]);//testing github setup
+        'posts' => Post::latest()->with(['category','author'])->get()
+    ]);
 });
 
 Route::get('posts/{post:slug}', function (Post $post) {
@@ -29,10 +31,17 @@ Route::get('posts/{post:slug}', function (Post $post) {
 
 });
 
-Route::get('category/{category}', function(Category $category){
+Route::get('categories/{category}', function(Category $category){
 
-    return view('post', [ 
-        'post' => $category->posts //this calls to the class of post thats responsible for finding the correct view
+    return view('posts', [ 
+        'posts' => $category->posts //this calls to the class of post thats responsible for finding the correct view
+    ]);
+
+});
+
+Route::get('authors/{author:username}', function(User $author){
+    return view('posts', [ 
+        'posts' => $author->posts 
     ]);
 
 });
