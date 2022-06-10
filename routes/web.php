@@ -19,7 +19,7 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 
 Route::get('/', function () {
     return view('posts', [
-        'posts' => Post::latest()->with(['category','author'])->get()
+        'posts' => Post::latest()->get()
     ]);
 });
 
@@ -34,14 +34,14 @@ Route::get('posts/{post:slug}', function (Post $post) {
 Route::get('categories/{category}', function(Category $category){
 
     return view('posts', [ 
-        'posts' => $category->posts //this calls to the class of post thats responsible for finding the correct view
+        'posts' => $category->posts
     ]);
 
 });
 
 Route::get('authors/{author:username}', function(User $author){
     return view('posts', [ 
-        'posts' => $author->posts 
+        'posts' => $author->posts
     ]);
 
 });

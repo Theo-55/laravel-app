@@ -11,6 +11,8 @@ class Post extends Model
 
     protected $gaurdable =[]; //does the opposite and strictly doesnt allow this to be changed
 
+    protected $width = ['category','author'];
+
     public function category() //function returns the category each post belongs to which can then be displayed or used through web router
     {
         return $this->belongsTo(Category::class);
